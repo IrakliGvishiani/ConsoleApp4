@@ -5,13 +5,15 @@
         static void Main(string[] args)
         {
 
-            Queue<int> numbers = new Queue<int>(new[] { 19, 55, 35 });
+            Queue<int> numbers = new Queue<int>(new[] { 1655, 2, 3 });
 
-            List<string> names = new List<string> { "Apple", "Banana", "Apple" };
+            List<string> names = new List<string> { "Apple", "Banana", "Apple", "Melon", "Melon" };
 
             List<string> names2 = new List<string> { "grape", "melon", "banana" };
 
-            List<int> numbers2 = new List<int> { 4, 5, 6 };
+            List<int> numbers2 = new List<int> { 4, 5, 6, 4, 4, 4, 4, 4, 4, 6,67 };
+
+            Stack<double> doubleNumbers = new Stack<double>(new[] { 1.5, 2.5, 3.5 });
 
             //foreach (var item in CustomFilter(numbers, isEven))
             //{
@@ -41,7 +43,34 @@
 
             //Console.WriteLine(CustomCheck(numbers, checkIfEven));
 
-                Console.WriteLine(CustomCheckAll(numbers, checkIfAdult));
+            //Console.WriteLine(CustomCheckAll(numbers, checkIfAdult));
+
+            //Console.WriteLine(CustomFirstOrDefault(names, checkIfStartsWithUpper));
+
+            //Console.WriteLine(CustomLastOrDefault(names, checkIfStartsWithUpper));
+
+            //    foreach (var item in CustomUniqueElements(numbers2))
+            //{
+            //    Console.WriteLine($"{item}");
+            //}
+
+            //    foreach (var item in CustomUnion(numbers, numbers2))
+            //    {
+            //        Console.WriteLine($"{item}");
+            //}
+
+            //    foreach (var item in CustomReverse(numbers))
+            //    {
+            //        Console.WriteLine($"{item}");
+            //}
+
+
+            //Console.WriteLine(CustomSum(doubleNumbers, sumLogicDouble));
+
+
+            //Console.WriteLine(CustomMax(doubleNumbers, maxLogicDouble));
+
+            Console.WriteLine(CustomMin(numbers2, minLogicInt));
 
         }
 
@@ -241,6 +270,200 @@
         static bool startsWithUpper(string input)
         {
             return char.IsUpper(input[0]);
+        }
+
+
+
+        /// <summary>
+        /// სიმრავლის პირველივე ელემენტი კონკრეტული პირობით ან default
+        /// </summary>
+        /// 
+
+        static T CustomFirstOrDefault<T>(IEnumerable<T> collection, Func<T, bool> check)
+        {
+            foreach (var item in collection)
+            {
+                if (check(item))
+                {
+                    return item;
+                }
+            }
+            return default(T);
+        }
+        static bool checkIfStartsWithUpper(string input)
+        {
+            return char.IsUpper(input[0]);
+        }
+
+
+
+        /// <summary>
+        /// სიმრავლის ბოლო ელემენტი კონრკეტული პირობით ან default
+        /// </summary>
+        static T CustomLastOrDefault<T>(IEnumerable<T> collection, Func<T, bool> check)
+        {
+            T lastMatch = default(T);
+            foreach (var item in collection)
+            {
+                if (check(item))
+                {
+                    lastMatch = item;
+                }
+            }
+            return lastMatch;
+        }
+
+
+
+        /// <summary>
+        /// უნიკალური ელემენტები
+        /// </summary>
+        /// 
+
+        static IEnumerable<T> CustomUniqueElements<T>(IEnumerable<T> collection)
+        {
+
+
+            HashSet<T> uniqueElements = new HashSet<T>();
+
+            foreach (var item in collection)
+            {
+                uniqueElements.Add(item);
+            }
+
+            return uniqueElements;
+        }
+
+
+        /// <summary>
+        /// ორი სიმრავლიდან ელემენტების გაერთიანება
+        /// </summary>
+        /// 
+
+        static IEnumerable<T> CustomUnion<T>(IEnumerable<T> firstCollection, IEnumerable<T> secondCollection)
+        {
+            HashSet<T> uniqueElements = new HashSet<T>();
+            foreach (var item in firstCollection)
+            {
+                uniqueElements.Add(item);
+            }
+            foreach (var item in secondCollection)
+            {
+                uniqueElements.Add(item);
+            }
+            return uniqueElements;
+
+
+        }
+
+
+
+        /// <summary>
+        /// სიმრავლის დატრიალება
+        /// </summary>
+        static IEnumerable<T> CustomReverse<T>(IEnumerable<T> collection)
+        {
+
+            Stack<T> stack = new Stack<T>();
+
+            foreach (var item in collection)
+            {
+                stack.Push(item);
+            }
+
+            return stack;
+
+        }
+
+
+
+        /// <summary>
+        /// სიმრავლის ელემენტების შეჯამება
+        /// </summary>
+
+        static T CustomSum<T>(IEnumerable<T> collection, Func<T, T, T> logic)
+        {
+
+            T sum = default;
+
+            foreach (var item in collection)
+            {
+                sum = logic(sum, item);
+            }
+            return sum;
+
+        }
+        static int sumLogicInt(int a, int b)
+        {
+            return a + b;
+        }
+        static double sumLogicDouble(double a, double b)
+        {
+            return a + b;
+        }
+
+
+        /// <summary>
+        /// სიმრავლის მაქსიმალური ელემენტი
+        /// </summary>
+        /// 
+
+        static T CustomMax<T>(IEnumerable<T> collection, Func<T, T, bool> logic)
+        {
+            T max = default(T);
+            foreach (var item in collection)
+            {
+                if (logic(item, max))
+                {
+                    max = item;
+                }
+            }
+            return max;
+        }
+        static bool maxLogicInt(int a, int b)
+        {
+            return a > b;
+        }
+        static bool maxLogicDouble(double a, double b)
+        {
+            return a > b;
+        }
+
+
+
+        /// <summary>
+        /// სიმრავლის მინიმალური ელემენტი
+        /// </summary>
+        /// 
+
+        static T CustomMin<T>(IEnumerable<T> collection, Func<T, T, bool> logic)
+        {
+            T min = default;
+            bool first = true;
+
+            foreach (var item in collection)
+            {
+                if (first)
+                {
+                    min = item;
+                    first = false;
+                    continue;
+                }
+
+                if (logic(item, min))
+                {
+                    min = item;
+                }
+            }
+            return min;
+        }
+        static bool minLogicInt(int a, int b)
+        {
+            return a < b;
+        }
+        static bool minLogicDouble(double a, double b)
+        {
+            return a < b;
         }
     }
 }
