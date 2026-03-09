@@ -13,7 +13,7 @@ namespace Mini_bank.Reposotory.Models
         public string PhoneNumber { get; set; }
 
         public string Email { get; set; }
-        public byte CustomerType { get; set; }
+        public CustomerType CustomerType { get; set; }
 
     }
 }

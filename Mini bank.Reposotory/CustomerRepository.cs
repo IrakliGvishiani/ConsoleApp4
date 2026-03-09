@@ -1,4 +1,6 @@
-﻿namespace Mini_bank.Reposotory.Models
+﻿using System.Text;
+
+namespace Mini_bank.Reposotory.Models
 {
     public class CustomerRepository
     {
@@ -8,17 +10,21 @@
 
         public CustomerRepository()
         {
-           _customers = LoadData(_filePath);
+           _customers = LoadData(_filePath).ToList();
 
         }
 
 
          public int addCustomer (Customer newCustomer)
         {
+            newCustomer.Id = _customers.Any() ? _customers.Max(c => c.Id) + 1 : 1;
+
             if (_customers.Any(c => c.Id == newCustomer.Id))
             {
                 throw new InvalidOperationException($"A customer with ID {newCustomer.Id} already exists.");
             }
+
+              
                          _customers.Add(newCustomer);
 
             File.AppendAllText(_filePath, $"\n{newCustomer.Id},{newCustomer.Name},{newCustomer.IdentityNumber},{newCustomer.PhoneNumber},{newCustomer.Email},{newCustomer.CustomerType}{Environment.NewLine}\n");
@@ -85,31 +91,46 @@
 
 
         #region HELPERS
-        private static List<Customer> LoadData(string filePath)
+        private static IEnumerable<Customer> LoadData(string filePath)
         {
-            var lines = File.ReadAllLines(_filePath);
-            var customers = new List<Customer>();
+            //var customers = new List<Customer>();
 
             if (!File.Exists(filePath))
             {
-                return customers;
+               yield break;
             }
 
-            foreach (var line in lines.Skip(1))
-                {
-                    if(string.IsNullOrWhiteSpace(line))
-                    {
-                        continue; 
-                     }
-                var customer = ParseFromCsv(line);
+            using var fs = new FileStream(
+                filePath, 
+                FileMode.Open,
+                FileAccess.Read,
+                FileShare.Read,
+                bufferSize: 4096,
+                useAsync: false
+                );
 
+            using var sr = new StreamReader(fs);
+
+            bool headers = false;
+
+            while (!sr.EndOfStream)
+            {
+                var line = sr.ReadLine();
+                if (!headers)
+                {
+                    headers = true;
+                    continue;
+                }
+                if (string.IsNullOrWhiteSpace(line))
+                    continue;
+                var customer = ParseFromCsv(line);
                 if (customer != null)
                 {
-                    customers.Add(customer);
+                 yield return customer;
                 }
-             
             }
-            return customers;
+
+      
         }
 
         private static Customer ParseFromCsv(string lines)
@@ -131,7 +152,7 @@
                     IdentityNumber = parts[2],
                     PhoneNumber = parts[3],
                     Email = parts[4],
-                    CustomerType = Convert.ToByte(parts[5])
+                    CustomerType = Enum.Parse<CustomerType>(parts[5])
                 };
             return customer;
         }
@@ -139,20 +160,28 @@
 
         private void SaveDataAsync()
         {
-            var lines = new List<string>();
 
-            lines.Add("Id,Name,IdentityNumber,PhoneNumber,Email,CustomerType");
+            //"Id,Name,IdentityNumber,PhoneNumber,Email,CustomerType"
+                using var fs = new FileStream(
+                    _filePath,
+                    FileMode.Create,
+                    FileAccess.Write,
+                    FileShare.None,
+                    bufferSize: 4096,
+                    useAsync: false
+                    );
 
-            foreach (var c in _customers)
+            using var sw = new StreamWriter(fs, Encoding.UTF8);
+
+            sw.WriteLine("Id,Name,IdentityNumber,PhoneNumber,Email,CustomerType");
+
+            foreach (var item in _customers)
             {
-                lines.Add($"{c.Id},{c.Name},{c.IdentityNumber},{c.PhoneNumber},{c.Email},{c.CustomerType}");
+               sw.WriteLine($"{item.Id},{item.Name},{item.IdentityNumber},{item.PhoneNumber},{item.Email},{item.CustomerType}");
             }
 
-            File.WriteAllLines(_filePath, lines);
+            sw.Flush();
         }
-
-
-
 
         #endregion
     }
