@@ -3,7 +3,7 @@
     "Id": 1,
     "Iban": "GE94SB5621487456325158",
     "Currency": "USD",
-    "Balance": 6712.12,
+    "Balance": 6722.12,
     "CustomerID": 0,
     "name": null
   },
@@ -11,7 +11,7 @@
     "Id": 2,
     "Iban": "GE71SB8745632154784124",
     "Currency": "GEL",
-    "Balance": 125.98,
+    "Balance": 115.98,
     "CustomerID": 0,
     "name": null
   },

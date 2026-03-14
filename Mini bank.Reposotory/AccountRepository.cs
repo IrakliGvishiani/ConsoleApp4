@@ -1,8 +1,9 @@
 ﻿using System.Text.Json;
 using Mini_bank.Reposotory.Models;
+using Mini_bank.Reposotory.Interfaces;
 namespace Mini_bank.Reposotory
 {
-    public class AccountRepository
+    public class AccountRepository : IAccountRepository
     {
 
       private const string _filePath = @"C:\Users\user\source\repos\ConsoleApp4\Data\Accounts.json";
@@ -66,6 +67,18 @@ namespace Mini_bank.Reposotory
             return existingAccount.Id;
         }
 
+        public void UpdateAccountBalance(int id, decimal newBalance)
+        {
+            var existingAccount = _accounts.FirstOrDefault(a => a.Id == id);
+            if (existingAccount == null)
+            {
+                throw new InvalidOperationException($"Account with ID {id} does not exist.");
+            }
+            existingAccount.Balance = newBalance;
+            string jsonData = JsonSerializer.Serialize(_accounts, new JsonSerializerOptions { WriteIndented = true });
+            File.WriteAllText(_filePath, jsonData);
+        }
+
         public void DeleteAccount (int id)
         {
             var selectedAccount = _accounts.FirstOrDefault(a => a.Id == id);
@@ -79,6 +92,9 @@ namespace Mini_bank.Reposotory
             string jsonData = JsonSerializer.Serialize(_accounts, new JsonSerializerOptions { WriteIndented = true });
             File.WriteAllText(_filePath, jsonData);
         }
+
+
+
     }
 
 

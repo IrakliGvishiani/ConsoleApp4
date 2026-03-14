@@ -1,6 +1,6 @@
 ﻿using Mini_bank.Reposotory.Models;
 using Mini_bank.Reposotory;
-
+using Mini_bank.Reposotory.Models;
 namespace MiniBankUI
 {
     internal class Program
@@ -21,15 +21,15 @@ namespace MiniBankUI
             //var result = customerRepository.addCustomer(customer1);
 
 
-            //var updatedCustomer = new Customer
-            //{
-            //    Id = 20,
-            //    Name = "John Doe Updated",
-            //    Email = "updatedd@gmail.com",
-            //    IdentityNumber = "12345678911",
-            //    PhoneNumber = "555123422",
-            //    CustomerType = CustomerType.Physical
-            //};
+            var updatedCustomer = new Customer
+            {
+                Id = 20,
+                Name = "John Doe Updated",
+                Email = "updatedd@gmail.com",
+                IdentityNumber = "12345678911",
+                PhoneNumber = "555123422",
+                CustomerType = CustomerType.Physical
+            };
 
             //customerRepository.UpdateCustomer(updatedCustomer);
             //customerRepository.DeleteCustomer(20);
@@ -60,8 +60,15 @@ namespace MiniBankUI
 
             //accountRepository.UpdateAccount(updatedAcc);
 
-            accountRepository.DeleteAccount(30);
+            //accountRepository.DeleteAccount(30);
 
+            OperationRepository operationRepository = new OperationRepository();
+            
+            //var gurgena = accountRepository.getAccountById(2);
+
+            //var iakob = accountRepository.getAccountById(1);
+
+            //operationRepository.Transfer(gurgena, iakob, 10);
         }
     }
 }

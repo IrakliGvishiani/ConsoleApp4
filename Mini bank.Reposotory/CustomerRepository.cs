@@ -1,8 +1,8 @@
 ﻿using System.Text;
-
+using Mini_bank.Reposotory.Interfaces;
 namespace Mini_bank.Reposotory.Models
 {
-    public class CustomerRepository
+    public class CustomerRepository : ICustomerRepository
     {
 
         private const string _filePath = @"C:\Users\user\source\repos\ConsoleApp4\Data\Customers.csv";
