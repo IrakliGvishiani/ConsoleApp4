@@ -3,57 +3,15 @@
   <Operation>
     <Id>1</Id>
     <OperationType>Credit</OperationType>
-    <AccountId>2</AccountId>
-    <Amount>-12</Amount>
-    <Date>2026-03-14T20:52:57.4033705+04:00</Date>
+    <AccountId>6</AccountId>
+    <Amount>1000</Amount>
+    <Date>2026-03-15T17:49:08.2836528+04:00</Date>
   </Operation>
   <Operation>
     <Id>2</Id>
     <OperationType>Debit</OperationType>
-    <AccountId>1</AccountId>
-    <Amount>12</Amount>
-    <Date>2026-03-14T16:52:57.4122852Z</Date>
-  </Operation>
-  <Operation>
-    <Id>3</Id>
-    <OperationType>Credit</OperationType>
-    <AccountId>2</AccountId>
-    <Amount>-22</Amount>
-    <Date>2026-03-14T20:57:50.8664832+04:00</Date>
-  </Operation>
-  <Operation>
-    <Id>4</Id>
-    <OperationType>Debit</OperationType>
-    <AccountId>1</AccountId>
-    <Amount>22</Amount>
-    <Date>2026-03-14T16:57:50.8666272Z</Date>
-  </Operation>
-  <Operation>
-    <Id>5</Id>
-    <OperationType>Credit</OperationType>
-    <AccountId>2</AccountId>
-    <Amount>-1</Amount>
-    <Date>2026-03-14T21:01:40.0354848+04:00</Date>
-  </Operation>
-  <Operation>
-    <Id>6</Id>
-    <OperationType>Debit</OperationType>
-    <AccountId>1</AccountId>
-    <Amount>1</Amount>
-    <Date>2026-03-14T17:01:40.0356651Z</Date>
-  </Operation>
-  <Operation>
-    <Id>7</Id>
-    <OperationType>Credit</OperationType>
-    <AccountId>2</AccountId>
-    <Amount>-10</Amount>
-    <Date>2026-03-14T21:09:44.7770249+04:00</Date>
-  </Operation>
-  <Operation>
-    <Id>8</Id>
-    <OperationType>Debit</OperationType>
-    <AccountId>1</AccountId>
-    <Amount>10</Amount>
-    <Date>2026-03-14T17:09:44.7771469Z</Date>
+    <AccountId>6</AccountId>
+    <Amount>-3000</Amount>
+    <Date>2026-03-15T17:51:18.2470879+04:00</Date>
   </Operation>
 </ArrayOfOperation>

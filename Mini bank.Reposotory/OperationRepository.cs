@@ -66,20 +66,21 @@ namespace Mini_bank.Reposotory
         {
             var fromAccountOperations = GetOperationsOfAccount(fromAccount.Id);
             var toAccountOperations = GetOperationsOfAccount(toAccount.Id);
-            //if (fromAccountOperations.Sum(o => o.Amount) < amount)
-            //{
-            //    throw new InvalidOperationException("Not enough funds in the source account.");
-            //}
+            if (fromAccount.Balance < amount)
+            {
+                throw new InvalidOperationException("Not enough funds in the source account.");
+            }
             Operation withdrawal = new Operation
             {
                 Id = operations.Any() ? operations.Max(o => o.Id) + 1 : 1,
                 AccountId = fromAccount.Id,
                 Amount = -amount,
                 OperationType = OperationType.Credit,
-                Date = DateTime.Now
+             
             };
             Operation deposit = new Operation
             {
+                Id = operations.Any() ? operations.Max(o => o.Id) + 1 : 1,
                 AccountId = toAccount.Id,
                 Amount = amount,
                 OperationType = OperationType.Debit
@@ -93,5 +94,47 @@ namespace Mini_bank.Reposotory
             AddOperation(deposit);
             SaveOperations(operations);
         }
+
+        public void Debit(Account account, decimal amount)
+        {
+            if (account.Balance < amount)
+            {
+                throw new InvalidOperationException("Not enough funds in the account.");
+            }
+            Operation debit = new Operation
+            {
+                Id = operations.Any() ? operations.Max(o => o.Id) + 1 : 1,
+                AccountId = account.Id,
+                Amount = -amount,
+                OperationType = OperationType.Debit,
+
+            };
+           var updatedBalance = account.Balance -= amount;
+            accountRepository.UpdateAccountBalance(account.Id, updatedBalance);
+            AddOperation(debit);
+            SaveOperations(operations);
+        }
+
+        public void Credit(Account account, decimal amount)
+        {
+            if (amount <= 0)
+            {
+                throw new InvalidOperationException("Amount must be greater than zero.");
+            }
+            Operation credit = new Operation
+            {
+                Id = operations.Any() ? operations.Max(o => o.Id) + 1 : 1,
+                AccountId = account.Id,
+                Amount = amount,
+                OperationType = OperationType.Credit,
+  
+            };
+            var updatedBalance = account.Balance += amount;
+            accountRepository.UpdateAccountBalance(account.Id, updatedBalance);
+            AddOperation(credit);
+            SaveOperations(operations);
+        }
+
+
     }
 }

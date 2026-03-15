@@ -9,6 +9,6 @@ namespace Mini_bank.Reposotory.Models
 
         public int AccountId { get; set; }
         public decimal Amount { get; set; }
-        public DateTime Date { get; set; } = DateTime.UtcNow;
+        public DateTime Date { get; set; } = DateTime.Now;
     }
 }

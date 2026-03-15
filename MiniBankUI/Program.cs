@@ -63,12 +63,17 @@ namespace MiniBankUI
             //accountRepository.DeleteAccount(30);
 
             OperationRepository operationRepository = new OperationRepository();
-            
-            //var gurgena = accountRepository.getAccountById(2);
 
-            //var iakob = accountRepository.getAccountById(1);
+            var gurgena = accountRepository.getAccountById(2);
 
-            //operationRepository.Transfer(gurgena, iakob, 10);
+            var iakob = accountRepository.getAccountById(1);
+
+            var user = accountRepository.getAccountById(6);
+
+            //operationRepository.Transfer(gurgena, iakob, 200);
+            operationRepository.Debit(user, 3000);
+            //operationRepository.Credit(user, 1000);
+
         }
     }
 }

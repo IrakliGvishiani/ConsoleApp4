@@ -18,7 +18,9 @@ namespace Mini_bank.Reposotory.Interfaces
 
         public List<Operation> LoadOperations();
         public void SaveOperations(List<Operation> operationsToSave);
+         void Debit(Account account, decimal amount);
 
+        void Credit(Account account, decimal amount);
 
     }
 }
