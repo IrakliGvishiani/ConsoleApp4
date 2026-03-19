@@ -1,6 +1,7 @@
 ﻿using Mini_bank.Reposotory.Models;
 using Mini_bank.Reposotory;
 using Mini_bank.Reposotory.Models;
+using Mini_bank.Reposotory.Attributes;
 namespace MiniBankUI
 {
     internal class Program
@@ -36,17 +37,18 @@ namespace MiniBankUI
 
 
             AccountRepository accountRepository = new AccountRepository();
-            //var account1 = new Account
-            //{
-            //    Id = 10,
-            //    Iban = "GE123456789",
-            //    Currency = "USD",
-            //    Balance = 1000.00m,
-            //    CustomerID = 5,
-            //    name = "idk"
-            //};
-            //var result = accountRepository.addAccount(account1);
+            var account1 = new Account
+            {
+                Id = 10,
+                Iban = "GE123456789",
+                Currency = "USD",
+                Balance = 1000,
+                CustomerID = 5,
+                name = "idk"
+            };
 
+                Validator.Validate(account1);
+            var result = accountRepository.addAccount(account1);
 
             //var updatedAcc = new Account
             //{
@@ -62,16 +64,16 @@ namespace MiniBankUI
 
             //accountRepository.DeleteAccount(30);
 
-            OperationRepository operationRepository = new OperationRepository();
+            //OperationRepository operationRepository = new OperationRepository();
 
-            var gurgena = accountRepository.getAccountById(2);
+            //var gurgena = accountRepository.getAccountById(2);
 
-            var iakob = accountRepository.getAccountById(1);
+            //var iakob = accountRepository.getAccountById(1);
 
-            var user = accountRepository.getAccountById(6);
+            //var user = accountRepository.getAccountById(6);
 
             //operationRepository.Transfer(gurgena, iakob, 200);
-            operationRepository.Debit(user, 3000);
+            //operationRepository.Debit(user, 3000);
             //operationRepository.Credit(user, 1000);
 
         }
