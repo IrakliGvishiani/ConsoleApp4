@@ -24,6 +24,7 @@ namespace Mini_bank.Reposotory.Models
         public string PhoneNumber { get; set; }
 
         [MyRequired]
+
             [MyEmail]
         public string Email { get; set; }
         public CustomerType CustomerType { get; set; }

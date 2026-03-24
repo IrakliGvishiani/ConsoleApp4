@@ -10,16 +10,18 @@ namespace MiniBankUI
         {
             CustomerRepository customerRepository = new CustomerRepository();
 
-            //var customer1 = new Customer
-            //{
-            //    Id = 20,
-            //    Name = "John Doe",
-            //    Email = "john@gmail.com",
-            //    IdentityNumber = "12345678911",
-            //    PhoneNumber = "555123422",
-            //    CustomerType = CustomerType.Physical
-            //};
-            //var result = customerRepository.addCustomer(customer1);
+            var customer1 = new Customer
+            {
+                Id = 20,
+                Name = "Giorgi gobetylewia",
+                Email = "idiotarseba@Otomotors.ge",
+                IdentityNumber = "12345678911",
+                PhoneNumber = "555123422",
+                CustomerType = CustomerType.Legal
+            };
+            Validator.Validate(customer1);
+
+            var result = customerRepository.addCustomer(customer1);
 
 
             var updatedCustomer = new Customer
@@ -28,7 +30,7 @@ namespace MiniBankUI
                 Name = "John Doe Updated",
                 Email = "updatedd@gmail.com",
                 IdentityNumber = "12345678911",
-                PhoneNumber = "555123422",
+                PhoneNumber = "+995 555 12 34 22",
                 CustomerType = CustomerType.Physical
             };
 
@@ -47,8 +49,8 @@ namespace MiniBankUI
                 name = "idk"
             };
 
-                Validator.Validate(account1);
-            var result = accountRepository.addAccount(account1);
+            //    Validator.Validate(account1);
+            //var result = accountRepository.addAccount(account1);
 
             //var updatedAcc = new Account
             //{

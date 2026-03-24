@@ -27,7 +27,7 @@ namespace Mini_bank.Reposotory.Models
               
                          _customers.Add(newCustomer);
 
-            File.AppendAllText(_filePath, $"\n{newCustomer.Id},{newCustomer.Name},{newCustomer.IdentityNumber},{newCustomer.PhoneNumber},{newCustomer.Email},{newCustomer.CustomerType}{Environment.NewLine}\n");
+            File.AppendAllText(_filePath, $"\n{newCustomer.Id},{newCustomer.Name},{newCustomer.IdentityNumber},{newCustomer.PhoneNumber},{newCustomer.Email},{newCustomer.CustomerType}\n");
 
                 return newCustomer.Id;
         }
