@@ -67,10 +67,14 @@ namespace MiniBankUI
 
             //accountRepository.DeleteAccount(30);
 
-            OperationRepository operationRepository = new OperationRepository();
+            //OperationRepository operationRepository = new OperationRepository();
+            //AccountRepository accountRepository1 = new AccountRepository();
+            var accountRepository1 = await AccountRepository.CreateAsync(@"C:\Users\user\source\repos\ConsoleApp4\Data\Accounts.json");
 
-            var user = accountRepository.getAccountById(6);
-             operationRepository = await OperationRepository.CreateAsync(@"C:\Users\user\source\repos\ConsoleApp4\Data\Operations.xml");
+
+            var user =  accountRepository1.getAccountById(1);
+
+            var operationRepository = await OperationRepository.CreateAsync(@"C:\Users\user\source\repos\ConsoleApp4\Data\Operations.xml", accountRepository1);
 
 
             await operationRepository.Credit(user, 1000);

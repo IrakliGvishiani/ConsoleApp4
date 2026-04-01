@@ -17,30 +17,35 @@ namespace Mini_bank.Reposotory
         AccountRepository accountRepository = new AccountRepository();
         private readonly object _lock = new object();
         private readonly SemaphoreSlim _semaphore = new SemaphoreSlim(1, 1);
+
+        private readonly AccountRepository _accountRepository;
         //public OperationRepository()
         //{
         //    operations = LoadOperations();
         //}
-
-        public OperationRepository(string filePath, List<Operation> operations)
-        {
-            _filePath = filePath;
-            this.operations = operations;
-        }
 
         public OperationRepository()
         {
             operations = new List<Operation>();
         }
 
-        public static async Task<OperationRepository> CreateAsync(string filePath)
+
+        public OperationRepository(string filePath, List<Operation> operations, AccountRepository accountRepository)
+        {
+            this.operations = operations;
+            _filePath = filePath;
+            this.accountRepository = accountRepository;
+        }
+
+
+        public static async Task<OperationRepository> CreateAsync(string filePath, AccountRepository accountRepository)
         {
             var operations = new List<Operation>();
             await foreach (var operation in LoadDataAsync(filePath))
             {
                 operations.Add(operation);
             }
-            return new OperationRepository(filePath, operations);
+            return new OperationRepository(filePath, operations, accountRepository);
         }
 
         public Operation GetSingleOperation(int operationId)
@@ -158,6 +163,7 @@ namespace Mini_bank.Reposotory
             {
                 throw new InvalidOperationException("Amount must be greater than zero.");
             }
+ 
             Operation credit = new Operation
             {
                 Id = operations.Any() ? operations.Max(o => o.Id) + 1 : 1,
