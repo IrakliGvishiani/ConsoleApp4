@@ -1,42 +1,74 @@
-﻿using System.Text;
+﻿using System.Diagnostics.Metrics;
+using System.Text;
+using System.Threading.Tasks;
 using Mini_bank.Reposotory.Interfaces;
 namespace Mini_bank.Reposotory.Models
 {
     public class CustomerRepository : ICustomerRepository
     {
 
-        private const string _filePath = @"C:\Users\user\source\repos\ConsoleApp4\Data\Customers.csv";
-        private readonly List<Customer> _customers = new List<Customer>();
+        //private const string _filePath = @"C:\Users\user\source\repos\ConsoleApp4\Data\Customers.csv";
+        //private readonly List<Customer> _customers = new List<Customer>();
+        private readonly object _lock = new object();
+        private readonly List<Customer> _customers;
+        private readonly string _filePath;
+        private readonly SemaphoreSlim _semaphore = new SemaphoreSlim(1, 1);
+        //public CustomerRepository()
+        //{
+        //   _customers = LoadData(_filePath).ToList();
 
-        public CustomerRepository()
+        //}
+        private CustomerRepository(string filePath, List<Customer> customers)
         {
-           _customers = LoadData(_filePath).ToList();
-
+            _customers = customers;
+            _filePath = filePath;
         }
 
+        
 
-         public int addCustomer (Customer newCustomer)
+        public static async Task<CustomerRepository> CreateAsync(string filePath)
         {
-            newCustomer.Id = _customers.Any() ? _customers.Max(c => c.Id) + 1 : 1;
+            var customers = new List<Customer>();
 
-            if (_customers.Any(c => c.Id == newCustomer.Id))
+           await foreach (var customer in LoadData(filePath))
             {
-                throw new InvalidOperationException($"A customer with ID {newCustomer.Id} already exists.");
+                customers.Add(customer);
             }
 
-              
-                         _customers.Add(newCustomer);
+            return new CustomerRepository(filePath, customers);
+        }
 
-            File.AppendAllText(_filePath, $"\n{newCustomer.Id},{newCustomer.Name},{newCustomer.IdentityNumber},{newCustomer.PhoneNumber},{newCustomer.Email},{newCustomer.CustomerType}\n");
+         public async Task<int> addCustomer (Customer newCustomer)
+        {
 
-                return newCustomer.Id;
+            lock (_lock)
+            {
+                newCustomer.Id = _customers.Any() ? _customers.Max(c => c.Id) + 1 : 1;
+
+                if (_customers.Any(c => c.Id == newCustomer.Id))
+                {
+                    throw new InvalidOperationException($"A customer with ID {newCustomer.Id} already exists.");
+                }
+                _customers.Add(newCustomer);
+
+            }
+
+
+
+            //File.AppendAllText(_filePath, $"\n{newCustomer.Id},{newCustomer.Name},{newCustomer.IdentityNumber},{newCustomer.PhoneNumber},{newCustomer.Email},{newCustomer.CustomerType}\n");
+            await SaveDataAsync();
+
+            return newCustomer.Id;
         }
 
 
 
         public Customer GetCustomer(int id)
         {
-            return _customers.FirstOrDefault(c => c.Id == id);
+            lock (_lock)
+            {
+                return _customers.FirstOrDefault(c => c.Id == id);
+            }
         }
 
 
@@ -44,29 +76,35 @@ namespace Mini_bank.Reposotory.Models
 
         public List<Customer> GetAllCustomers()
             {
-                return _customers;
-        }
+                lock (_lock)
+                {
+                    return _customers.ToList();
+                }
+             }
 
 
 
 
     
-            public int UpdateCustomer (Customer updatedCustomer)
+            public async Task<int> UpdateCustomer (Customer updatedCustomer)
             {
                 var existingCustomer = _customers.FirstOrDefault(c => c.Id == updatedCustomer.Id);
 
-            if (existingCustomer == null || existingCustomer.Id != updatedCustomer.Id)
-            {
-                throw new InvalidOperationException($"Customer with ID {updatedCustomer.Id} does not exist.");
+            lock (_lock) {
+
+                if (existingCustomer == null || existingCustomer.Id != updatedCustomer.Id)
+                {
+                    throw new InvalidOperationException($"Customer with ID {updatedCustomer.Id} does not exist.");
+                }
+
+                existingCustomer.Name = updatedCustomer.Name;
+                existingCustomer.IdentityNumber = updatedCustomer.IdentityNumber;
+                existingCustomer.PhoneNumber = updatedCustomer.PhoneNumber;
+                existingCustomer.Email = updatedCustomer.Email;
+                existingCustomer.CustomerType = updatedCustomer.CustomerType;
+
             }
-
-            existingCustomer.Name = updatedCustomer.Name;
-            existingCustomer.IdentityNumber = updatedCustomer.IdentityNumber;
-            existingCustomer.PhoneNumber = updatedCustomer.PhoneNumber;
-            existingCustomer.Email = updatedCustomer.Email;
-            existingCustomer.CustomerType = updatedCustomer.CustomerType;
-
-            SaveDataAsync();
+            await SaveDataAsync();
 
             return existingCustomer.Id;
         }
@@ -75,23 +113,26 @@ namespace Mini_bank.Reposotory.Models
 
 
 
-        public int DeleteCustomer (int id)
+        public async Task<int> DeleteCustomer (int id)
         {
             var customer = _customers.FirstOrDefault(c => c.Id == id);
 
-            if (customer == null)
+            lock (_lock)
             {
-                throw new Exception();
-            }
+                if (customer == null)
+                {
+                    throw new Exception();
+                }
 
-            _customers.Remove(customer);
-            SaveDataAsync();
+                _customers.Remove(customer);
+            }
+            await SaveDataAsync();
             return customer.Id;
         }
 
 
         #region HELPERS
-        private static IEnumerable<Customer> LoadData(string filePath)
+        private static async IAsyncEnumerable<Customer> LoadData(string filePath)
         {
             //var customers = new List<Customer>();
 
@@ -106,7 +147,7 @@ namespace Mini_bank.Reposotory.Models
                 FileAccess.Read,
                 FileShare.Read,
                 bufferSize: 4096,
-                useAsync: false
+                useAsync: true
                 );
 
             using var sr = new StreamReader(fs);
@@ -115,7 +156,7 @@ namespace Mini_bank.Reposotory.Models
 
             while (!sr.EndOfStream)
             {
-                var line = sr.ReadLine();
+                var line = await sr.ReadLineAsync();
                 if (!headers)
                 {
                     headers = true;
@@ -158,30 +199,49 @@ namespace Mini_bank.Reposotory.Models
         }
 
 
-        private void SaveDataAsync()
+        private async Task SaveDataAsync()
         {
+            try {
+                await _semaphore.WaitAsync();
 
-            //"Id,Name,IdentityNumber,PhoneNumber,Email,CustomerType"
                 using var fs = new FileStream(
                     _filePath,
                     FileMode.Create,
                     FileAccess.Write,
                     FileShare.None,
                     bufferSize: 4096,
-                    useAsync: false
+                    useAsync: true
                     );
 
-            using var sw = new StreamWriter(fs, Encoding.UTF8);
+                using var sw = new StreamWriter(fs, Encoding.UTF8);
 
-            sw.WriteLine("Id,Name,IdentityNumber,PhoneNumber,Email,CustomerType");
+                await sw.WriteLineAsync("Id,Name,IdentityNumber,PhoneNumber,Email,CustomerType");
 
-            foreach (var item in _customers)
+                List<Customer> snapshot;
+                lock (_lock)
+                {
+                    snapshot = _customers.ToList();
+                }
+
+                foreach (var item in snapshot)
+                {
+                    await sw.WriteLineAsync(toCsv(item));
+                }
+
+                sw.Flush();
+            }
+            catch
             {
-               sw.WriteLine($"{item.Id},{item.Name},{item.IdentityNumber},{item.PhoneNumber},{item.Email},{item.CustomerType}");
+                _semaphore.Release();
             }
 
-            sw.Flush();
         }
+            
+
+            private static string toCsv(Customer customer) => $"{customer.Id},{customer.Name},{customer.IdentityNumber},{customer.PhoneNumber},{customer.Email},{customer.CustomerType}";
+
+
+
 
         #endregion
     }

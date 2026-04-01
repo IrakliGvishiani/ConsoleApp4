@@ -9,11 +9,11 @@ namespace Mini_bank.Reposotory.Interfaces
         public List<Account> getAllAccount<T> ();
 
         Account getAccountById(int id);
-        int addAccount(Account newAccoun);
+        Task<int> addAccount(Account newAccoun);
 
-        void UpdateAccountBalance(int id, decimal newBalance);
-        int UpdateAccount(Account updatedAccount);
-        void DeleteAccount(int id);
+        Task UpdateAccountBalance(int id, decimal newBalance);
+        Task<int> UpdateAccount(Account updatedAccount);
+        Task DeleteAccount(int id);
 
         //void TransferFunds(int fromAccountId, int toAccountId, decimal amount);
     }

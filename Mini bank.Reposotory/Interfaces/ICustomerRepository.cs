@@ -7,11 +7,11 @@ namespace Mini_bank.Reposotory.Interfaces
 {
     public interface ICustomerRepository
     {
-        int addCustomer(Customer newCustomer);
+        Task<int> addCustomer(Customer newCustomer);
         Customer GetCustomer(int id);
         List<Customer> GetAllCustomers();
-        int UpdateCustomer(Customer updatedCustomer);
-        int DeleteCustomer(int id);
+        Task<int> UpdateCustomer(Customer updatedCustomer);
+        Task<int> DeleteCustomer(int id);
 
     }
 }

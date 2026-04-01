@@ -2,13 +2,14 @@
 using Mini_bank.Reposotory;
 using Mini_bank.Reposotory.Models;
 using Mini_bank.Reposotory.Attributes;
+using System.Threading.Tasks;
 namespace MiniBankUI
 {
     internal class Program
     {
-        static void Main(string[] args)
+        static async Task Main(string[] args)
         {
-            CustomerRepository customerRepository = new CustomerRepository();
+            //CustomerRepository customerRepository = new CustomerRepository();
 
             var customer1 = new Customer
             {
@@ -19,9 +20,9 @@ namespace MiniBankUI
                 PhoneNumber = "555123422",
                 CustomerType = CustomerType.Legal
             };
-            Validator.Validate(customer1);
+            //Validator.Validate(customer1);
 
-            var result = customerRepository.addCustomer(customer1);
+            //var result = customerRepository.addCustomer(customer1);
 
 
             var updatedCustomer = new Customer
@@ -66,17 +67,13 @@ namespace MiniBankUI
 
             //accountRepository.DeleteAccount(30);
 
-            //OperationRepository operationRepository = new OperationRepository();
+            OperationRepository operationRepository = new OperationRepository();
 
-            //var gurgena = accountRepository.getAccountById(2);
+            var user = accountRepository.getAccountById(6);
+             operationRepository = await OperationRepository.CreateAsync(@"C:\Users\user\source\repos\ConsoleApp4\Data\Operations.xml");
 
-            //var iakob = accountRepository.getAccountById(1);
 
-            //var user = accountRepository.getAccountById(6);
-
-            //operationRepository.Transfer(gurgena, iakob, 200);
-            //operationRepository.Debit(user, 3000);
-            //operationRepository.Credit(user, 1000);
+            await operationRepository.Credit(user, 1000);
 
         }
     }

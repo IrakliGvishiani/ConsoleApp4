@@ -1,13 +1,14 @@
 ﻿using System.Text.Json;
 using Mini_bank.Reposotory.Models;
 using Mini_bank.Reposotory.Interfaces;
+using System.Threading.Tasks;
 namespace Mini_bank.Reposotory
 {
     public class AccountRepository : IAccountRepository
     {
-
-      private const string _filePath = @"C:\Users\user\source\repos\ConsoleApp4\Data\Accounts.json";
-        private readonly List<Account> _accounts = new List<Account>();
+        private const string _filePath = @"C:\Users\user\source\repos\ConsoleApp4\Data\Accounts.json";
+        private readonly List<Account> _accounts;
+        private readonly object _lock = new object();
 
         public AccountRepository()
         {
@@ -23,34 +24,40 @@ namespace Mini_bank.Reposotory
 
 
 
-        public List<Account> getAllAccount<T> ()
+        public  List<Account> getAllAccount<T>()
         {
-                return _accounts;
+            lock (_lock)
+            {
+                return _accounts.ToList();
+            }
         }
 
-        public Account getAccountById (int id)
+        public Account getAccountById(int id)
         {
-            return _accounts.FirstOrDefault(a => a.Id == id);
+            lock (_lock)
+            {
+                return _accounts.FirstOrDefault(a => a.Id == id);
+            }
         }
 
 
 
-         public int addAccount (Account newAccount)
+        public async Task<int> addAccount(Account newAccount)
         {
             newAccount.Id = _accounts.Any() ? _accounts.Max(a => a.Id) + 1 : 1;
             if (_accounts.Any(a => a.Id == newAccount.Id))
             {
                 throw new InvalidOperationException($"An account with ID {newAccount.Id} already exists.");
             }
-            
+
             _accounts.Add(newAccount);
-            string jsonData = JsonSerializer.Serialize(_accounts, new JsonSerializerOptions { WriteIndented = true });
-            File.WriteAllText(_filePath, jsonData);
+            string jsonData =  JsonSerializer.Serialize(_accounts, new JsonSerializerOptions { WriteIndented = true });
+            await File.WriteAllTextAsync(_filePath, jsonData);
             return newAccount.Id;
         }
 
 
-        public int UpdateAccount (Account updatedAccount)
+        public async Task<int> UpdateAccount(Account updatedAccount)
         {
             var existingAccount = _accounts.FirstOrDefault(a => a.Id == updatedAccount.Id);
             if (existingAccount == null || existingAccount.Id != updatedAccount.Id)
@@ -63,11 +70,11 @@ namespace Mini_bank.Reposotory
             existingAccount.CustomerID = updatedAccount.CustomerID;
             existingAccount.name = updatedAccount.name;
             string jsonData = JsonSerializer.Serialize(_accounts, new JsonSerializerOptions { WriteIndented = true });
-            File.WriteAllText(_filePath, jsonData);
+           await File.WriteAllTextAsync(_filePath, jsonData);
             return existingAccount.Id;
         }
 
-        public void UpdateAccountBalance(int id, decimal newBalance)
+        public async Task UpdateAccountBalance(int id, decimal newBalance)
         {
             var existingAccount = _accounts.FirstOrDefault(a => a.Id == id);
             if (existingAccount == null)
@@ -76,10 +83,10 @@ namespace Mini_bank.Reposotory
             }
             existingAccount.Balance = newBalance;
             string jsonData = JsonSerializer.Serialize(_accounts, new JsonSerializerOptions { WriteIndented = true });
-            File.WriteAllText(_filePath, jsonData);
+           await File.WriteAllTextAsync(_filePath, jsonData);
         }
 
-        public void DeleteAccount (int id)
+        public async Task DeleteAccount(int id)
         {
             var selectedAccount = _accounts.FirstOrDefault(a => a.Id == id);
 
@@ -90,7 +97,7 @@ namespace Mini_bank.Reposotory
 
             _accounts.Remove(selectedAccount);
             string jsonData = JsonSerializer.Serialize(_accounts, new JsonSerializerOptions { WriteIndented = true });
-            File.WriteAllText(_filePath, jsonData);
+           await File.WriteAllTextAsync(_filePath, jsonData);
         }
 
 
@@ -103,6 +110,6 @@ namespace Mini_bank.Reposotory
 
     
 
-
-    #endregion
-}
+    }
+        #endregion
+    

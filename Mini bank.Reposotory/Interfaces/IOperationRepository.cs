@@ -12,15 +12,15 @@ namespace Mini_bank.Reposotory.Interfaces
         //int AddOperation(Operation newOperation);
         //    List<Operation> LoadOperations();
         //void SaveOperations(List<Operation> operationsToSave);
-        public int AddOperation(Operation newOperation);
+        public Task<int> AddOperation(Operation newOperation);
         List<Operation> GetOperationsOfAccount(int accountId);
         Operation GetSingleOperation(int operationId);
 
-        public List<Operation> LoadOperations();
-        public void SaveOperations(List<Operation> operationsToSave);
-         void Debit(Account account, decimal amount);
+        //public List<Operation> LoadOperations();
+        //public void SaveOperations(List<Operation> operationsToSave);
+         Task Debit(Account account, decimal amount);
 
-        void Credit(Account account, decimal amount);
+        Task Credit(Account account, decimal amount);
 
     }
 }
