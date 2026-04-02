@@ -1,7 +1,10 @@
-﻿using Mini_bank.Reposotory.Models;
-using Mini_bank.Reposotory;
-using Mini_bank.Reposotory.Models;
+﻿using Mini_bank.Reposotory;
 using Mini_bank.Reposotory.Attributes;
+using Mini_bank.Reposotory.Interfaces;
+using Mini_bank.Reposotory.Models;
+using Mini_bank.Reposotory.Models;
+using MiniBank.Service;
+using MiniBank.Service.Dtos.Customer;
 using System.Threading.Tasks;
 namespace MiniBankUI
 {
@@ -69,16 +72,39 @@ namespace MiniBankUI
 
             //OperationRepository operationRepository = new OperationRepository();
             //AccountRepository accountRepository1 = new AccountRepository();
-            var accountRepository1 = await AccountRepository.CreateAsync(@"C:\Users\user\source\repos\ConsoleApp4\Data\Accounts.json");
+            //var accountRepository1 = await AccountRepository.CreateAsync(@"C:\Users\user\source\repos\ConsoleApp4\Data\Accounts.json");
 
 
-            var user =  accountRepository1.getAccountById(1);
+            //var user =  accountRepository1.getAccountById(1);
 
-            var operationRepository = await OperationRepository.CreateAsync(@"C:\Users\user\source\repos\ConsoleApp4\Data\Operations.xml", accountRepository1);
+            //var operationRepository = await OperationRepository.CreateAsync(@"C:\Users\user\source\repos\ConsoleApp4\Data\Operations.xml", accountRepository1);
+            var customerRepository = await CustomerRepository.CreateAsync(@"C:\Users\user\source\repos\ConsoleApp4\Data\Customers.csv");
+
+            //await operationRepository.Credit(user, 1000);
 
 
-            await operationRepository.Credit(user, 1000);
+            var customerService = new CustomerService(customerRepository);
 
+            var createDto = new CreateCustomerDto
+            {
+                
+                Name = "Irakli",
+                IdentityNumber = "123456789",
+                PhoneNumber = "555123456",
+                Email = "irakli@gmail.com"
+            };
+
+            var updatedDto = new UpdateCustomerDto
+            {
+                Id = 12,
+                Name = "jajo",
+                IdentityNumber = "123456789",
+                PhoneNumber = "555123456",
+                Email = "irakli@gmail.com"
+            };
+
+            
+            
         }
     }
 }

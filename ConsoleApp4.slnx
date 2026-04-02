@@ -2,6 +2,7 @@
   <Folder Name="/mini bank/">
     <Project Path="Data/MiniBank.Data.csproj" Id="e751212a-637d-40ca-82ee-69f3f357638a" />
     <Project Path="Mini bank.Reposotory/MiniBank.Repository.csproj" Id="d52974b7-4778-4d09-875c-8a0cbb9203cf" />
+    <Project Path="MiniBank.Service/MiniBank.Service.csproj" Id="6695f0f5-de05-4c1a-8824-655607d3de31" />
     <Project Path="MiniBankUI/MiniBankUI.csproj" Id="cb6bc6da-7cfc-477d-ba6a-6b7483b72147" />
   </Folder>
   <Project Path="ConsoleApp4/ConsoleApp4.csproj" />
