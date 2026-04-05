@@ -201,9 +201,9 @@ namespace Mini_bank.Reposotory.Models
 
         private async Task SaveDataAsync()
         {
-            try {
-                await _semaphore.WaitAsync();
-
+            await _semaphore.WaitAsync();
+            try
+            {
                 using var fs = new FileStream(
                     _filePath,
                     FileMode.Create,
@@ -211,7 +211,7 @@ namespace Mini_bank.Reposotory.Models
                     FileShare.None,
                     bufferSize: 4096,
                     useAsync: true
-                    );
+                );
 
                 using var sw = new StreamWriter(fs, Encoding.UTF8);
 
@@ -228,17 +228,17 @@ namespace Mini_bank.Reposotory.Models
                     await sw.WriteLineAsync(toCsv(item));
                 }
 
-                sw.Flush();
+                await sw.FlushAsync();
             }
-            catch
+            finally
             {
-                _semaphore.Release();
+                _semaphore.Release(); // ✔️ ყოველთვის გაეშვება
             }
-
         }
-            
 
-            private static string toCsv(Customer customer) => $"{customer.Id},{customer.Name},{customer.IdentityNumber},{customer.PhoneNumber},{customer.Email},{customer.CustomerType}";
+
+
+        private static string toCsv(Customer customer) => $"{customer.Id},{customer.Name},{customer.IdentityNumber},{customer.PhoneNumber},{customer.Email},{customer.CustomerType}";
 
 
 

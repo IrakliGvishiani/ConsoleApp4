@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Mini_bank.Reposotory.Models;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -12,6 +13,7 @@ namespace MiniBank.Service.Dtos.Customer
         public string PhoneNumber { get; set; }
         public string Email { get; set; }
 
+        public CustomerType CustomerType { get; set; }
 
     }
 }

@@ -104,7 +104,11 @@ namespace MiniBankUI
             };
 
             
-            
+            //CustomerService getCustomers = new CustomerService(customerRepository);
+
+            //    var customers = await getCustomers.GetAllCustomers();
+    
+            //    var customerById = await getCustomers.GetCustomerById(12);
         }
     }
 }

@@ -1,12 +1,14 @@
 ﻿
+using Mini_bank.Reposotory.Interfaces;
 using Mini_bank.Reposotory.Models;
 using MiniBank.Service.Dtos.Customer;
+using MiniBank.Service.Interfaces;
 
 namespace MiniBank.Service
 {
-    public class CustomerService
+    public class CustomerService : ICustomerService
     {
-        private readonly CustomerRepository _customerRepository;
+        private readonly ICustomerRepository _customerRepository;
         
 
         public CustomerService(CustomerRepository customerRepository)
@@ -14,37 +16,44 @@ namespace MiniBank.Service
             _customerRepository = customerRepository;
         }
 
-        //public List<CustomerDto> GetAllCustomers()
+        //public CustomerService()
         //{
-        //    var customers = _customerRepository.GetAllCustomers();
-            
-        //    var customerDtos = customers.Select(c => new CustomerDto
-        //    {
-        //        Id = c.Id,
-        //        Name = c.Name,
-        //        IdentityNumber = c.IdentityNumber,
-        //        PhoneNumber = c.PhoneNumber,
-        //        Email = c.Email,
-        //    }).ToList();
-        //    return customerDtos;
         //}
 
-        //public CustomerDto GetCustomerById(int id)
-        //{
-        //    var customer = _customerRepository.GetCustomer(id);
-        //    if (customer == null)
-        //        return null;
-            
-        //    var customerDto = new CustomerDto
-        //    {
-        //        Id = customer.Id,
-        //        Name = customer.Name,
-        //        IdentityNumber = customer.IdentityNumber,
-        //        PhoneNumber = customer.PhoneNumber,
-        //        Email = customer.Email,
-        //    };
-        //    return customerDto;
-        //}
+        public async Task<List<CustomerDto>> GetAllCustomers()
+        {
+            var customers = _customerRepository.GetAllCustomers();
+
+            var customerDtos =  customers.Select(c => new CustomerDto
+            {
+                Id = c.Id,
+                Name = c.Name,
+                IdentityNumber = c.IdentityNumber,
+                PhoneNumber = c.PhoneNumber,
+                Email = c.Email,
+                CustomerType = c.CustomerType
+            }).ToList();
+
+            return customerDtos;
+        }
+
+        public async Task<CustomerDto> GetCustomerById(int id)
+        {
+            var customer = _customerRepository.GetCustomer(id);
+            if (customer == null)
+                return null;
+
+            var customerDto = new CustomerDto
+            {
+                Id = customer.Id,
+                Name = customer.Name,
+                IdentityNumber = customer.IdentityNumber,
+                PhoneNumber = customer.PhoneNumber,
+                Email = customer.Email,
+                CustomerType = customer.CustomerType
+            };
+            return customerDto;
+        }
 
 
         public async Task<int> AddCustomer(CreateCustomerDto dto)
@@ -77,10 +86,10 @@ namespace MiniBank.Service
             return await _customerRepository.UpdateCustomer(customer);
         }
 
-        //public async Task<int> deleteCustomer(int id)
-        //    {
-        //        return await _customerRepository.DeleteCustomer(id);
-        //}
+        public async Task<int> deleteCustomer(int id)
+        {
+            return await _customerRepository.DeleteCustomer(id);
+        }
 
     }
 }

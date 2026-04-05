@@ -4,6 +4,7 @@
     <Project Path="Mini bank.Reposotory/MiniBank.Repository.csproj" Id="d52974b7-4778-4d09-875c-8a0cbb9203cf" />
     <Project Path="MiniBank.Service/MiniBank.Service.csproj" Id="6695f0f5-de05-4c1a-8824-655607d3de31" />
     <Project Path="MiniBankUI/MiniBankUI.csproj" Id="cb6bc6da-7cfc-477d-ba6a-6b7483b72147" />
+    <Project Path="MiniBankWindowsFormUi/MiniBankWindowsFormUi.csproj" Id="3c6cd871-263b-4ccb-9999-0541a2fca4bf" />
   </Folder>
   <Project Path="ConsoleApp4/ConsoleApp4.csproj" />
   <Project Path="Custom Translation/Custom Translation.csproj" Id="e7fccf73-b360-4adf-8ddf-2bf95ea4e28d" />
