@@ -1,8 +1,10 @@
 ﻿
+using Mini_bank.Reposotory;
 using Mini_bank.Reposotory.Interfaces;
 using Mini_bank.Reposotory.Models;
 using MiniBank.Service.Dtos.Customer;
 using MiniBank.Service.Interfaces;
+//using System.ComponentModel.DataAnnotations;
 
 namespace MiniBank.Service
 {
@@ -11,7 +13,7 @@ namespace MiniBank.Service
         private readonly ICustomerRepository _customerRepository;
         
 
-        public CustomerService(CustomerRepository customerRepository)
+        public CustomerService(ICustomerRepository customerRepository)
         {
             _customerRepository = customerRepository;
         }
@@ -59,6 +61,8 @@ namespace MiniBank.Service
         public async Task<int> AddCustomer(CreateCustomerDto dto)
         {
             
+            Validator.Validate(dto);
+
             var customer = new Customer
             {
                 Name = dto.Name,
@@ -73,6 +77,7 @@ namespace MiniBank.Service
 
         public async Task<int> updateCustomer(UpdateCustomerDto dto)
         {
+            Validator.Validate(dto);
             var customer = new Customer
             {
                 Id = dto.Id,

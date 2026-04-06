@@ -2,6 +2,7 @@
 using MiniBank.Service;
 using MiniBank.Service.Dtos.Customer;
 using MiniBank.Service.Interfaces;
+using System.ComponentModel.DataAnnotations;
 using System.Windows.Forms;
 
 namespace MiniBankWindowsFormUi
@@ -69,6 +70,9 @@ namespace MiniBankWindowsFormUi
                 Email = EmailValue.Text,
                 //Customer = (CustomerType)CustomerTypeCombo.SelectedItem
             };
+
+           
+
 
             await _customerService.AddCustomer(newCustomer);
             MessageBox.Show("Customer added successfully!");

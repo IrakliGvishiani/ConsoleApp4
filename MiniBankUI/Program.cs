@@ -23,7 +23,6 @@ namespace MiniBankUI
                 PhoneNumber = "555123422",
                 CustomerType = CustomerType.Legal
             };
-            //Validator.Validate(customer1);
 
             //var result = customerRepository.addCustomer(customer1);
 
@@ -89,7 +88,7 @@ namespace MiniBankUI
             {
                 
                 Name = "Irakli",
-                IdentityNumber = "123456789",
+                IdentityNumber = "12345678911",
                 PhoneNumber = "555123456",
                 Email = "irakli@gmail.com"
             };
@@ -102,12 +101,15 @@ namespace MiniBankUI
                 PhoneNumber = "555123456",
                 Email = "irakli@gmail.com"
             };
+            Validator.Validate(customer1);
 
-            
+
+            var addResult = await customerService.AddCustomer(createDto);
+
             //CustomerService getCustomers = new CustomerService(customerRepository);
 
             //    var customers = await getCustomers.GetAllCustomers();
-    
+
             //    var customerById = await getCustomers.GetCustomerById(12);
         }
     }
