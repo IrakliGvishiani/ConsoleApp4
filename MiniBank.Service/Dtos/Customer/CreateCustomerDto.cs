@@ -1,5 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
-using Mini_bank.Reposotory.Attributes;
+﻿using Mini_bank.Reposotory.Attributes;
+using Mini_bank.Reposotory.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace MiniBank.Service.Dtos.Customer
 {
@@ -18,5 +19,9 @@ namespace MiniBank.Service.Dtos.Customer
 
             [MyRequired] [MyEmail]
         public string Email { get; set; }
+
+        [MyRequired] 
+        public CustomerType CustomerType { get; set; }
+
     }
 }

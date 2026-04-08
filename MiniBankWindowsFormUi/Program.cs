@@ -4,6 +4,7 @@ using MiniBank.Service.Interfaces;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using Mini_bank.Reposotory.Interfaces;
+using Mini_bank.Reposotory;
 namespace MiniBankWindowsFormUi
 {
     internal static class Program
@@ -36,13 +37,20 @@ namespace MiniBankWindowsFormUi
     private static void ConfigureServices(IServiceCollection services)
         {
             string customerFilePath = @"C:\Users\user\source\repos\ConsoleApp4\Data\Customers.csv";
+            string accountFilepath = @"C:\Users\user\source\repos\ConsoleApp4\Data\Accounts.json";
 
             services.AddSingleton<ICustomerRepository>(provider =>
             {
                 return CustomerRepository.CreateAsync(customerFilePath).GetAwaiter().GetResult();
             });
 
+            services.AddSingleton<IAccountRepository>(provider =>
+            {
+                return AccountRepository.CreateAsync(accountFilepath).GetAwaiter().GetResult();
+            });
+
             services.AddTransient<ICustomerService, CustomerService>();
+            services.AddTransient<IAccountService, AccountService>();
 
             services.AddTransient<Form1>();
         }

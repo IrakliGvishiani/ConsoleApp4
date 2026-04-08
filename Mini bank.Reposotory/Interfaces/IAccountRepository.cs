@@ -15,6 +15,8 @@ namespace Mini_bank.Reposotory.Interfaces
         Task<int> UpdateAccount(Account updatedAccount);
         Task DeleteAccount(int id);
 
+        public List<Account> getAccountsByCustomerId(int customerId);
+
         //void TransferFunds(int fromAccountId, int toAccountId, decimal amount);
     }
 }

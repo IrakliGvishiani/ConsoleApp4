@@ -43,6 +43,7 @@
             AddBtn = new Button();
             UpdateBtn = new Button();
             DeleteBtn = new Button();
+            AccountsOfCustomer = new ListBox();
             SuspendLayout();
             // 
             // listBox1
@@ -182,11 +183,22 @@
             DeleteBtn.UseVisualStyleBackColor = false;
             DeleteBtn.Click += DeleteBtn_Click;
             // 
+            // AccountsOfCustomer
+            // 
+            AccountsOfCustomer.FormattingEnabled = true;
+            AccountsOfCustomer.Location = new Point(232, 411);
+            AccountsOfCustomer.Name = "AccountsOfCustomer";
+            AccountsOfCustomer.SelectionMode = SelectionMode.None;
+            AccountsOfCustomer.Size = new Size(588, 124);
+            AccountsOfCustomer.TabIndex = 15;
+            AccountsOfCustomer.SelectedIndexChanged += AccountsOfCustomer_SelectedIndexChanged;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(995, 429);
+            ClientSize = new Size(922, 569);
+            Controls.Add(AccountsOfCustomer);
             Controls.Add(DeleteBtn);
             Controls.Add(UpdateBtn);
             Controls.Add(AddBtn);
@@ -225,5 +237,6 @@
         private Button AddBtn;
         private Button UpdateBtn;
         private Button DeleteBtn;
+        private ListBox AccountsOfCustomer;
     }
 }

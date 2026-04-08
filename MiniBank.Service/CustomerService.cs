@@ -69,6 +69,7 @@ namespace MiniBank.Service
                 IdentityNumber = dto.IdentityNumber,
                 PhoneNumber = dto.PhoneNumber,
                 Email = dto.Email,
+                CustomerType = dto.CustomerType
             };
 
             

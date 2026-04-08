@@ -28,10 +28,10 @@ namespace Mini_bank.Reposotory.Models
 
 
         [Required]
-        public int CustomerID { get; set; }
+        public int CustomerId { get; set; }
 
 
         [Required]
-        public string? name { get; set; }
+        public string? Name { get; set; }
     }
 }

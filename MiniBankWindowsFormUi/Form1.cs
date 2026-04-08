@@ -10,12 +10,13 @@ namespace MiniBankWindowsFormUi
     public partial class Form1 : Form
     {
         private readonly ICustomerService _customerService;
-        public Form1(ICustomerService customerService)
+        private readonly IAccountService _accountService;
+        public Form1(ICustomerService customerService, IAccountService accountService)
         {
             InitializeComponent();
             _customerService = customerService;
+            _accountService = accountService;
 
-           
             this.Load += Form1_Load;
         }
 
@@ -24,6 +25,9 @@ namespace MiniBankWindowsFormUi
             var customers = await _customerService.GetAllCustomers();
             listBox1.DataSource = customers;
             listBox1.DisplayMember = "Name";
+
+            CustomerTypeCombo.DataSource = Enum.GetValues(typeof(CustomerType));
+
         }
 
         private async void listBox1_SelectedIndexChanged(object sender, EventArgs e)
@@ -41,6 +45,10 @@ namespace MiniBankWindowsFormUi
                 EmailValue.Text = $"{customerDetails.Email}";
                 CustomerTypeCombo.DataSource = Enum.GetValues(typeof(CustomerType));
             }
+
+            var accounts = _accountService.GetAllAccounts(selectedCustomer.Id);
+
+            AccountsOfCustomer.DataSource = accounts;
 
 
         }
@@ -68,10 +76,10 @@ namespace MiniBankWindowsFormUi
                 IdentityNumber = IdentityValue.Text,
                 PhoneNumber = PhoneNumValue.Text,
                 Email = EmailValue.Text,
-                //Customer = (CustomerType)CustomerTypeCombo.SelectedItem
+                CustomerType = (CustomerType)CustomerTypeCombo.SelectedIndex
             };
 
-           
+
 
 
             await _customerService.AddCustomer(newCustomer);
@@ -116,9 +124,14 @@ namespace MiniBankWindowsFormUi
                 return;
             }
 
-           await _customerService.deleteCustomer(selectedCustomer.Id);
+            await _customerService.deleteCustomer(selectedCustomer.Id);
             MessageBox.Show("Customer deleted successfully!");
             Form1_Load(sender, e);
+        }
+
+        private void AccountsOfCustomer_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

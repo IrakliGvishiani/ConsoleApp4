@@ -41,19 +41,20 @@ namespace MiniBankUI
             //customerRepository.DeleteCustomer(20);
 
 
-            AccountRepository accountRepository = new AccountRepository();
+            //AccountRepository accountRepository = new AccountRepository();
+            var accountRepository = await AccountRepository.CreateAsync(@"C:\Users\user\source\repos\ConsoleApp4\Data\Accounts.json");
             var account1 = new Account
             {
                 Id = 10,
-                Iban = "GE123456789",
+                Iban = "GE71SB8745632154784124",
                 Currency = "USD",
                 Balance = 1000,
-                CustomerID = 5,
-                name = "idk"
+                CustomerId = 5,
+                Name = "Giorgi Account"
             };
 
-            //    Validator.Validate(account1);
-            //var result = accountRepository.addAccount(account1);
+            Validator.Validate(account1);
+            var result = await accountRepository.addAccount(account1);
 
             //var updatedAcc = new Account
             //{
@@ -101,10 +102,10 @@ namespace MiniBankUI
                 PhoneNumber = "555123456",
                 Email = "irakli@gmail.com"
             };
-            Validator.Validate(customer1);
+            //Validator.Validate(customer1);
 
 
-            var addResult = await customerService.AddCustomer(createDto);
+            //var addResult = await customerService.AddCustomer(createDto);
 
             //CustomerService getCustomers = new CustomerService(customerRepository);
 

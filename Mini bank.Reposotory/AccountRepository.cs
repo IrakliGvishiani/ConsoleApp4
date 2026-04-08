@@ -63,6 +63,14 @@ namespace Mini_bank.Reposotory
             }
         }
 
+        public List<Account> getAccountsByCustomerId(int customerId)
+        {
+            lock (_lock)
+            {
+                return _accounts.Where(a => a.CustomerId == customerId).ToList();
+            }
+        }
+
 
 
         public async Task<int> addAccount(Account newAccount)
@@ -77,8 +85,9 @@ namespace Mini_bank.Reposotory
                 }
 
                 _accounts.Add(newAccount);
-                //string jsonData = JsonSerializer.Serialize(_accounts, new JsonSerializerOptions { WriteIndented = true });
             }
+            //string jsonData = JsonSerializer.Serialize(_accounts, new JsonSerializerOptions { WriteIndented = true });
+
             //await File.WriteAllTextAsync(_filePath, jsonData);
             await SaveDataAsync();
             return newAccount.Id;
@@ -97,8 +106,8 @@ namespace Mini_bank.Reposotory
                 existingAccount.Iban = updatedAccount.Iban;
                 existingAccount.Currency = updatedAccount.Currency;
                 existingAccount.Balance = updatedAccount.Balance;
-                existingAccount.CustomerID = updatedAccount.CustomerID;
-                existingAccount.name = updatedAccount.name;
+                existingAccount.CustomerId = updatedAccount.CustomerId;
+                existingAccount.Name = updatedAccount.Name;
             }
             //string jsonData = JsonSerializer.Serialize(_accounts, new JsonSerializerOptions { WriteIndented = true });
             //await File.WriteAllTextAsync(_filePath, jsonData);
