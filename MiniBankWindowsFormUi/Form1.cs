@@ -1,8 +1,10 @@
 ﻿using Mini_bank.Reposotory.Models;
 using MiniBank.Service;
+using MiniBank.Service.Dtos.Account;
 using MiniBank.Service.Dtos.Customer;
 using MiniBank.Service.Interfaces;
 using System.ComponentModel.DataAnnotations;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace MiniBankWindowsFormUi
@@ -133,5 +135,49 @@ namespace MiniBankWindowsFormUi
         {
 
         }
+
+        private void OpenAccount_Click(object sender, EventArgs e)
+        {
+            var selectedCustomer = listBox1.SelectedItem as CustomerDto;
+
+            if (selectedCustomer == null)
+            {
+                MessageBox.Show("Select customer first!");
+                return;
+            }
+
+            Form2 form2 = new Form2(selectedCustomer.Id, _accountService);
+            form2.ShowDialog();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            var selectedAccount = AccountsOfCustomer.SelectedItem as GetAccountDto;
+
+            if (selectedAccount == null)
+            {
+                MessageBox.Show("Select account first!");
+                return;
+            }
+            else
+            {
+                _accountService.DeleteAccount(selectedAccount.Id);
+                MessageBox.Show("Account deleted successfully!");
+                Form1_Load(sender, e);
+            }
+        }
+
+        //private void UpdateAccountBtn_Click(object sender, EventArgs e)
+        //{
+        //    var selectedAccount = AccountsOfCustomer.SelectedItem as GetAccountDto;
+        //    var selectedCustomer = listBox1.SelectedItem as CustomerDto;
+
+
+        //    if (selectedAccount != null)
+        //    {
+        //        new Form2(selectedCustomer.Id, selectedAccount.Id, _accountService).ShowDialog();
+        //    }
+
+        //}
     }
 }

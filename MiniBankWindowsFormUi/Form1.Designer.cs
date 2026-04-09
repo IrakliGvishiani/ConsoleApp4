@@ -44,6 +44,8 @@
             UpdateBtn = new Button();
             DeleteBtn = new Button();
             AccountsOfCustomer = new ListBox();
+            OpenAccount = new Button();
+            button1 = new Button();
             SuspendLayout();
             // 
             // listBox1
@@ -186,18 +188,40 @@
             // AccountsOfCustomer
             // 
             AccountsOfCustomer.FormattingEnabled = true;
-            AccountsOfCustomer.Location = new Point(232, 411);
+            AccountsOfCustomer.Location = new Point(227, 447);
             AccountsOfCustomer.Name = "AccountsOfCustomer";
-            AccountsOfCustomer.SelectionMode = SelectionMode.None;
             AccountsOfCustomer.Size = new Size(588, 124);
             AccountsOfCustomer.TabIndex = 15;
             AccountsOfCustomer.SelectedIndexChanged += AccountsOfCustomer_SelectedIndexChanged;
+            // 
+            // OpenAccount
+            // 
+            OpenAccount.Location = new Point(377, 402);
+            OpenAccount.Name = "OpenAccount";
+            OpenAccount.Size = new Size(158, 29);
+            OpenAccount.TabIndex = 16;
+            OpenAccount.Text = "Open Account";
+            OpenAccount.UseVisualStyleBackColor = true;
+            OpenAccount.Click += OpenAccount_Click;
+            // 
+            // button1
+            // 
+            button1.BackColor = Color.Red;
+            button1.Location = new Point(561, 402);
+            button1.Name = "button1";
+            button1.Size = new Size(141, 29);
+            button1.TabIndex = 17;
+            button1.Text = "Delete Account";
+            button1.UseVisualStyleBackColor = false;
+            button1.Click += button1_Click;
             // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(922, 569);
+            Controls.Add(button1);
+            Controls.Add(OpenAccount);
             Controls.Add(AccountsOfCustomer);
             Controls.Add(DeleteBtn);
             Controls.Add(UpdateBtn);
@@ -238,5 +262,7 @@
         private Button UpdateBtn;
         private Button DeleteBtn;
         private ListBox AccountsOfCustomer;
+        private Button OpenAccount;
+        private Button button1;
     }
 }

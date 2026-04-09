@@ -84,6 +84,7 @@ namespace Mini_bank.Reposotory
                     throw new InvalidOperationException($"An account with ID {newAccount.Id} already exists.");
                 }
 
+                newAccount.Iban = GenerateUniqueIban();
                 _accounts.Add(newAccount);
             }
             //string jsonData = JsonSerializer.Serialize(_accounts, new JsonSerializerOptions { WriteIndented = true });
@@ -155,6 +156,29 @@ namespace Mini_bank.Reposotory
 
         #region AccountRepositoryInterface
 
+
+        private string GenerateIban()
+        {
+            var random = new Random();
+
+            var digits = random.NextInt64(1000000000000000, 9999999999999999);
+
+            return $"GE{random.Next(10, 99)}SB{random.NextInt64(1000000000000000, 9999999999999999)}";
+
+        }
+
+        private string GenerateUniqueIban()
+        {
+            string iban;
+
+            do
+            {
+                iban = GenerateIban();
+            }
+            while (_accounts.Any(a => a.Iban == iban));
+
+            return iban;
+        }
 
         private async Task SaveDataAsync()
         {

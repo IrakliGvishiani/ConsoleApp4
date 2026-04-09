@@ -7,12 +7,12 @@ namespace Mini_bank.Reposotory.Models
     public class Account
     {
         private string _currency;
-        [Required] [IsPositiveNumber]
+        //[Required] [IsPositiveNumber]
         
         public int Id { get; set; }
 
-        [Required]
-        [MyIban]
+        //[Required]
+        //[MyIban]
         public string Iban { get; set; }
 
         [Required]

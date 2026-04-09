@@ -16,14 +16,6 @@
     "Name": null
   },
   {
-    "Id": 3,
-    "Iban": "GE91SB8745680154786124",
-    "Currency": "EUR",
-    "Balance": 1145.11,
-    "CustomerId": 12,
-    "Name": null
-  },
-  {
     "Id": 4,
     "Iban": "GE52SB1248690154796173",
     "Currency": "RUB",
@@ -128,14 +120,6 @@
     "Name": null
   },
   {
-    "Id": 17,
-    "Iban": "GE99SB4412354846312435",
-    "Currency": "USD",
-    "Balance": 2.25,
-    "CustomerId": 9,
-    "Name": null
-  },
-  {
     "Id": 18,
     "Iban": "GE95SB4478212336984517",
     "Currency": "RUB",
@@ -229,6 +213,22 @@
     "Currency": "GEL",
     "Balance": 50000,
     "CustomerId": 3,
+    "Name": null
+  },
+  {
+    "Id": 30,
+    "Iban": "GE76SB9559179599996919",
+    "Currency": "USD",
+    "Balance": 0,
+    "CustomerId": 5,
+    "Name": "Giorgi Account"
+  },
+  {
+    "Id": 31,
+    "Iban": "GE69SB8074548431217401",
+    "Currency": "GEL",
+    "Balance": 2.50,
+    "CustomerId": 9,
     "Name": null
   }
 ]

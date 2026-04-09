@@ -4,6 +4,7 @@ using Mini_bank.Reposotory.Interfaces;
 using Mini_bank.Reposotory.Models;
 using Mini_bank.Reposotory.Models;
 using MiniBank.Service;
+using MiniBank.Service.Dtos.Account;
 using MiniBank.Service.Dtos.Customer;
 using System.Threading.Tasks;
 namespace MiniBankUI
@@ -43,18 +44,17 @@ namespace MiniBankUI
 
             //AccountRepository accountRepository = new AccountRepository();
             var accountRepository = await AccountRepository.CreateAsync(@"C:\Users\user\source\repos\ConsoleApp4\Data\Accounts.json");
-            var account1 = new Account
+            var accountService = new AccountService(accountRepository);
+
+            var account1 = new CreateAccountDto
             {
-                Id = 10,
-                Iban = "GE71SB8745632154784124",
                 Currency = "USD",
-                Balance = 1000,
                 CustomerId = 5,
-                Name = "Giorgi Account"
+                Name = null
             };
 
             Validator.Validate(account1);
-            var result = await accountRepository.addAccount(account1);
+            var result =  accountService.DeleteAccount(30);
 
             //var updatedAcc = new Account
             //{
