@@ -30,64 +30,87 @@ Georgian to English  2");
 
                 else if (response == "1")
                 {
-                    var path = "C:\\Users\\user\\source\\repos\\ConsoleApp4\\Custom Translation\\EN-KA.txt";
+                    //var path = "C:\\Users\\user\\source\\repos\\ConsoleApp4\\Custom Translation\\EN-KA.txt";
+                    var path = @"../../../EN-KA.txt";
 
-
-                    var translations = LoadTranslations(path);
-
-
-                    Console.WriteLine("Enter an English word to translate:");
-                    var englishInput = Console.ReadLine().ToLower();
-
-                    if (translations.ContainsKey(englishInput))
+                    //var translations = LoadTranslations(path);
+                    try
                     {
-                        Console.WriteLine($"The Georgian translation of '{englishInput}' is: {translations[englishInput]}");
-                    }
-                    else
-                    {
-                        Console.WriteLine($"'{englishInput}' word doesn't exist in dictionary! would you like it to add? (Y/N)");
-                        var addResponse = Console.ReadLine().ToLower();
+                        var translations = LoadTranslations(path);
 
-                        if (addResponse == "y")
+
+                        Console.WriteLine("Enter an English word to translate:");
+                        var englishInput = Console.ReadLine().ToLower();
+
+                        if (translations.ContainsKey(englishInput))
                         {
-                            Console.WriteLine("Enter the Georgian translation:");
-                            var georgianTranslation = Console.ReadLine().ToLower();
-
-                            File.AppendAllText(path, $"{englishInput}={georgianTranslation}", Encoding.UTF8);
-                            Console.WriteLine("Word added to the dictionary.");
+                            Console.WriteLine($"The Georgian translation of '{englishInput}' is: {translations[englishInput]}");
                         }
                         else
                         {
-                            Console.WriteLine("Word not added to the dictionary.");
+                            Console.WriteLine($"'{englishInput}' word doesn't exist in dictionary! would you like it to add? (Y/N)");
+                            var addResponse = Console.ReadLine().ToLower();
+
+                            if (addResponse == "y")
+                            {
+                                Console.WriteLine("Enter the Georgian translation:");
+                                var georgianTranslation = Console.ReadLine().ToLower();
+
+                                File.AppendAllText(path, $"\n{englishInput}={georgianTranslation}", Encoding.UTF8);
+                                Console.WriteLine("Word added to the dictionary.");
+                            }
+                            else
+                            {
+                                Console.WriteLine("Word not added to the dictionary.");
+                            }
                         }
                     }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine("Error loading file: " + ex.Message);
+                    }
+
+
+
 
                 }
                 else if (response == "2")
                 {
-                    var path = "C:\\Users\\user\\source\\repos\\ConsoleApp4\\Custom Translation\\KA-EN.txt";
+                    //var path = "C:\\Users\\user\\source\\repos\\ConsoleApp4\\Custom Translation\\KA-EN.txt";
+                    var path = @"../../../KA-EN.txt";
+
+
+                    try
+                    {
                     var translations = LoadTranslations(path);
-                    Console.WriteLine("Enter a Georgian word to translate:");
-                    var georgianInput = Console.ReadLine();
-                    if (translations.ContainsKey(georgianInput))
-                    {
-                        Console.WriteLine($"The English translation of '{georgianInput}' is: {translations[georgianInput]}");
-                    }
-                    else
-                    {
-                        Console.WriteLine($"'{georgianInput}' word doesn't exist in dictionary! would you like it to add? (Y/N)");
-                        var addResponse = Console.ReadLine().ToLower();
-                        if (addResponse == "y")
+
+                        Console.WriteLine("Enter a Georgian word to translate:");
+                        var georgianInput = Console.ReadLine();
+                        if (translations.ContainsKey(georgianInput))
                         {
-                            Console.WriteLine("Enter the English translation:");
-                            var englishTranslation = Console.ReadLine().ToLower();
-                            File.AppendAllText(path, $"{georgianInput}={englishTranslation}", Encoding.UTF8);
+                            Console.WriteLine($"The English translation of '{georgianInput}' is: {translations[georgianInput]}");
                         }
                         else
                         {
-                            Console.WriteLine("Word not added to the dictionary.");
+                            Console.WriteLine($"'{georgianInput}' word doesn't exist in dictionary! would you like it to add? (Y/N)");
+                            var addResponse = Console.ReadLine().ToLower();
+                            if (addResponse == "y")
+                            {
+                                Console.WriteLine("Enter the English translation:");
+                                var englishTranslation = Console.ReadLine().ToLower();
+                                File.AppendAllText(path, $"\n{georgianInput}={englishTranslation}", Encoding.UTF8);
+                            }
+                            else
+                            {
+                                Console.WriteLine("Word not added to the dictionary.");
+                            }
                         }
                     }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine("Error loading file: " + ex.Message);
+                    }
+       
 
                 }
 

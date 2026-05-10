@@ -10,4 +10,5 @@
   <Project Path="Custom Translation/Custom Translation.csproj" Id="e7fccf73-b360-4adf-8ddf-2bf95ea4e28d" />
   <Project Path="Garbage Collection,IDisposable,using/Garbage Collection,IDisposable,using.csproj" Id="73175a0d-b198-493f-b9d5-2c3a77e1e3e5" />
   <Project Path="Generics,Ienumarable,Delegats/Generics,Ienumarable,Delegats.csproj" Id="23045849-4c16-4fd5-a0be-458ceff33ce0" />
+  <Project Path="StepClass/StepClass.csproj" Id="3e1252d3-2532-4c90-829c-a3794f6ab1f6" />
 </Solution>
