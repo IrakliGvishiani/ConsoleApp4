@@ -19,7 +19,7 @@ namespace StepClass
             //    FirstName = "John",
             //    LastName = "Doe",
             //    BirthDate = new DateTime(2000, 1, 1),
-            //    Email = "johndildo@gmail.com",
+            //    Email = "john@gmail.com",
             //    Phone = "1234567891",
             //    GroupName = "SE-524-8"
             //};
